@@ -11,8 +11,6 @@ const timeout = function (s) {
   });
 };
 
-// https://forkify-api.herokuapp.com/v2
-
 ///////////////////////////////////////
 
 const RecipesController = async () => {
