@@ -17,8 +17,13 @@ const RecipesController = async () => {
     if (!id) return;
     recipeView.renderSpinner();
 
+    // update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
+
+    //loading recipe
     await model.loadRecipe(id);
 
+    // render recipe
     recipeView.render(model.state.recipe);
   } catch (error) {
     console.log(error);
@@ -49,7 +54,7 @@ const PaginationController = goToPage => {
 
 const ServingsController = newServings => {
   model.updateServings(newServings);
-  recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
 };
 
 const init = (() => {
