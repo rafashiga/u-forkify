@@ -9,6 +9,7 @@ export const state = {
     page: 1,
     resultsPerPage: RESULTS_PER_PAGE,
   },
+  bookmarks: [],
 };
 
 export const loadRecipe = async id => {
@@ -26,6 +27,10 @@ export const loadRecipe = async id => {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+
+    state.recipe.bookmarked = state.bookmarks.some(
+      bookmark => bookmark.id === id
+    );
   } catch (error) {
     console.error(error);
     throw error;
@@ -63,3 +68,32 @@ export const updateServings = newServings => {
   });
   state.recipe.servings = newServings;
 };
+
+const persistBookmarks = () => {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+
+const clearBookmarks = () => {
+  localStorage.clear('bookmarks');
+};
+
+export const toggleBookmark = () => {
+  const { recipe, bookmarks } = state;
+  if (!recipe.bookmarked) {
+    bookmarks.push(recipe);
+    recipe.bookmarked = true;
+  } else {
+    const index = bookmarks.findIndex(el => el.id === recipe.id);
+    bookmarks.splice(index, 1);
+    recipe.bookmarked = false;
+  }
+
+  persistBookmarks();
+};
+
+(() => {
+  const storage = localStorage.getItem('bookmarks');
+  if (storage) {
+    state.bookmarks = JSON.parse(storage);
+  }
+})();
