@@ -8,10 +8,10 @@
 
 <p align="center">
 
-  <img alt="top language" src="https://img.shields.io/github/languages/top/rafashiga//u-forkify?style=flat-square">
-  <img alt="language count" src="https://img.shields.io/github/languages/count/rafashiga//u-forkify?style=flat-square">
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/rafashiga//u-forkify?style=flat-square">
-  <img alt="Last commit" src="https://img.shields.io/github/last-commit/rafashiga//u-forkify?style=flat-square">
+  <img alt="top language" src="https://img.shields.io/github/languages/top/rafashiga/u-forkify?style=flat-square">
+  <img alt="language count" src="https://img.shields.io/github/languages/count/rafashiga/u-forkify?style=flat-square">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/rafashiga/u-forkify?style=flat-square">
+  <img alt="Last commit" src="https://img.shields.io/github/last-commit/rafashiga/u-forkify?style=flat-square">
   <br>
   <br>
   <a href="#space_invader-technologies">Technologies</a>
