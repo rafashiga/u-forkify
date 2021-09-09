@@ -71,12 +71,21 @@ const BookmarksController = () => {
 
 const AddRecipeController = async newRecipe => {
   try {
+    // loading
     addRecipeView.renderSpinner();
 
+    // Upload
     await model.uploadRecipe(newRecipe);
     recipeView.render(model.state.recipe);
 
+    // success message
     addRecipeView.renderMessage();
+
+    // Render bookmark
+    bookmarksView.render(model.state.bookmarks);
+
+    // change ID in URL
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
     setTimeout(() => {
       addRecipeView.toggleModal();

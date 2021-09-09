@@ -1,5 +1,5 @@
 import { API_URL, KEY, RESULTS_PER_PAGE } from './config';
-import { getJSON, sendJSON } from './helpers';
+import { AJAX } from './helpers';
 
 export const state = {
   recipe: {},
@@ -29,7 +29,7 @@ const createRecipeObject = data => {
 
 export const loadRecipe = async id => {
   try {
-    const data = await getJSON(`${API_URL}/${id}`);
+    const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
 
     state.recipe = createRecipeObject(data);
 
@@ -45,13 +45,14 @@ export const loadRecipe = async id => {
 export const loadSearchResults = async query => {
   try {
     state.search.query = query;
-    const data = await getJSON(`${API_URL}?search=${query}`);
+    const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
 
     state.search.results = data.data.recipes.map(recipe => ({
       id: recipe.id,
       title: recipe.title,
       publisher: recipe.publisher,
       image: recipe.image_url,
+      ...(recipe.key && { key: recipe.key }),
     }));
   } catch (error) {
     throw error;
@@ -101,7 +102,7 @@ export const uploadRecipe = async newRecipe => {
     const ingredients = Object.entries(newRecipe)
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
-        const ingArray = ing[1].replaceAll(' ', '').split(',');
+        const ingArray = ing[1].split(',').map(el => el.trim());
         if (ingArray.length !== 3) {
           throw new Error(
             'Wrong ingredient format! Please use the correct format :)'
@@ -125,7 +126,7 @@ export const uploadRecipe = async newRecipe => {
       ingredients,
     };
 
-    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     toggleBookmark(state.recipe);
   } catch (error) {
